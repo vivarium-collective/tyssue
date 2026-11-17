@@ -1,19 +1,5 @@
 # tyssue : An epithelium simulation library
 
-
-## About this fork
-
-This repository is a fork of [DamCB/tyssue](https://github.com/DamCB/tyssue),
-created by Guillaume Gay, Sophie Theis, Magali Suzanne and the tyssue contributors.
-With the agreement of the original authors, tyssue is developed here by the
-[vivarium-collective](https://github.com/vivarium-collective).
-
-**A release is upcoming.** This fork will become the source code for future
-`tyssue` releases on PyPI. The current PyPI release (1.1.0) was published from
-the upstream repository and does not include the changes listed under
-[Upcoming release](#upcoming-release).
-
-
 ![A nice banner](doc/illus/banner.png)
 
 <hr/>
@@ -24,20 +10,128 @@ the upstream repository and does not include the changes listed under
 
 | Tests | Doc | CHAT |
 | --- | --- | --- |
-| [![Tests](https://github.com/vivarium-collective/tyssue/actions/workflows/tests.yml/badge.svg)](https://github.com/vivarium-collective/tyssue/actions/workflows/tests.yml) | [![Doc Status](https://readthedocs.org/projects/tyssue/badge/?version=latest)](http://tyssue.readthedocs.io/en/latest/) |  [![Join the chat at https://gitter.im/DamCB/tyssue](https://badges.gitter.im/DamCB/tyssue.svg)](https://gitter.im/DamCB/tyssue?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) |
-
-
-## Publication
-
-`tyssue` is published in the Journal of Open Source Software.
-
-| ZENODO DOI | JOSS DOI |
-| --- | --- |
-| [![DOI](https://zenodo.org/badge/32533164.svg)](https://zenodo.org/badge/latestdoi/32533164) | [![DOI](https://joss.theoj.org/papers/10.21105/joss.02973/status.svg)](https://doi.org/10.21105/joss.02973) |
+| [![Tests](https://github.com/vivarium-collective/tyssue/actions/workflows/tests.yml/badge.svg)](https://github.com/vivarium-collective/tyssue/actions/workflows/tests.yml) | [![Doc Status](https://readthedocs.org/projects/tyssue/badge/?version=latest)](https://tyssue.readthedocs.io/en/latest/) |  [![Join the chat at https://gitter.im/DamCB/tyssue](https://badges.gitter.im/DamCB/tyssue.svg)](https://gitter.im/DamCB/tyssue?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) |
 
 The `tyssue` library seeks to provide a unified interface to implement
 biomechanical models of living tissues.
 Its main focus is on **vertex based epithelium models**.
+
+## Install
+
+tyssue is a pure Python package (Python 3.10 or later), installed from PyPI:
+
+```bash
+python -m pip install --upgrade tyssue
+```
+
+### Optional extras
+
+```bash
+python -m pip install "tyssue[viz]"   # 3D and interactive visualisation (ipyvolume, vispy)
+python -m pip install "tyssue[zarr]"  # zarr file support
+```
+
+The base install is enough to run simulations and to draw with matplotlib.
+
+### Writing gifs
+
+`create_gif` and `create_gif_3d` use [ImageMagick](https://imagemagick.org),
+which is not a Python package and has to be installed separately:
+
+| Platform | Command |
+| --- | --- |
+| macOS | `brew install imagemagick` |
+| Debian/Ubuntu | `sudo apt install imagemagick` |
+| Windows | [installer](https://imagemagick.org/script/download.php#windows) |
+
+### From source
+
+```bash
+git clone https://github.com/vivarium-collective/tyssue.git
+cd tyssue
+python -m pip install -e ".[dev]"
+```
+
+See [INSTALL.md](INSTALL.md) for running the tests and building the documentation.
+
+## Getting started
+
+```python
+## Core object
+from tyssue import Sheet
+## Simple 2D geometry
+from tyssue import PlanarGeometry
+## Visualisation (matplotlib based)
+from tyssue.draw import sheet_view
+
+sheet = Sheet.planar_sheet_2d('basic2D', nx=6, ny=7,
+                              distx=1, disty=1)
+PlanarGeometry.update_all(sheet)
+sheet.sanitize()
+fig, ax = sheet_view(sheet)
+```
+
+## Documentation
+
+The documentation at [tyssue.readthedocs.io](https://tyssue.readthedocs.io) has:
+
+* **Tutorials**, from basic usage, geometry and visualisation to solvers,
+  rearrangements, cell division, the event manager, type 3 transitions, and
+  tubes, vessels and active migration. The notebooks are also in
+  [doc/notebooks](doc/notebooks).
+* The **API reference** for every module.
+* The [changelog](changelog.md).
+
+The [tissue closure notebook](notebooks/tissue_closure_demo.ipynb) shows
+lateral-face fusion and apical-constriction lift on monolayers.
+
+## What can you simulate?
+
+* **Tissues**: 2D sheets (`Sheet`, also with holes or periodic boundaries),
+  2D lateral sheets (`LateralSheet`), 3D apical sheets (flat, closed,
+  ellipsoid, cylinder and vessel shaped), and 3D monolayers and bulk tissues
+  (`Monolayer`).
+* **Mechanics**: build a model from effectors (area, volume, perimeter and
+  length elasticity, line tension, contractility, surface tension, radial
+  tension, chiral torque, active migration and more) with `model_factory`.
+  Variants hold the tissue border in place: `model_factory_cylinder` and
+  `model_factory_vessel` for tubes, `model_factory_bound` for a tissue with
+  fixed borders.
+* **Solvers**: `QSSolver` finds the quasi-static (minimum energy) state;
+  `EulerSolver` runs overdamped dynamics in time and records a `History`.
+* **Topology changes**: type 1 transitions (neighbour exchange), type 2
+  transitions (removal of small triangular cells), type 3 transitions (a border
+  vertex joining the free edge of a neighbouring cell, `EulerSolver(..., with_t3=True)`),
+  cell division, apoptosis and delamination.
+* **Behaviours**: schedule events with an `EventManager`. `append` queues an
+  event for the next step and `append_current` for the current one. An event
+  that is already queued with the same arguments is not added twice, unless
+  you pass `unique=False`.
+* **Tissue closure**: fuse the facing lateral walls of two monolayer fronts
+  into one continuous epithelium (`lumen_closure` and `fuse` behaviours).
+* **Folding and overlap checks**: `check_intersections` reports cells that
+  fold over themselves or overlap during a simulation.
+* **Input and output**: HDF5 histories, Zarr (with the `zarr` extra), and mesh
+  export through `meshio`.
+
+## Upgrading from tyssue 1.x
+
+* **Results differ slightly.** Unit edge vectors were computed from outdated
+  edge lengths, which changed line tension and contractility forces, most of
+  all on short edges.
+* **Type 2 and type 3 transitions.** The removal of small triangular cells,
+  previously called a type 3 transition, is now the type 2 transition:
+  use `with_t2=` (`QSSolver`, `all_rearangements`, `single_rearangement`) and
+  `auto_t2`. The old names still work, with a warning. `EulerSolver(with_t3=True)`
+  enables the new type 3 transition.
+* **`ActiveMigration`** reads each cell's direction from the face columns
+  `mx`, `my` (and `mz`), and splits the cell's force between its vertices.
+* **Removed**: the collision solvers (use `check_intersections` or
+  `tyssue.collisions.intersections` to detect folds and overlaps), and the
+  `EulerSolverDivision` / `EulerSolverDiv` solvers (use a division event with
+  `EulerSolver`). `CylinderGeometryInit` is now `CylinderGeometry`.
+
+The [changelog](changelog.md) lists every change.
 
 ## Overview
 
@@ -57,33 +151,6 @@ dissipation function formalism.
 <p align="center">
  <img src="doc/illus/geometry.png" width="500">
 </p>
-
-### What can you simulate?
-
-* **Tissues**: 2D sheets (`Sheet`, also with holes or periodic boundaries),
-  2D lateral sheets (`LateralSheet`), 3D apical sheets (flat, closed, ellipsoid,
-  cylinder and vessel shaped), and 3D monolayers and bulk tissues (`Monolayer`).
-* **Mechanics**: build a model from effectors (area, volume, perimeter and
-  length elasticity, line tension, contractility, surface tension, radial
-  tension, chiral torque, active migration and more) with `model_factory`.
-* **Solvers**: `QSSolver` finds the quasi-static (minimum energy) state;
-  `EulerSolver` runs overdamped dynamics in time and records a `History`.
-* **Topology changes**: type 1 transitions (neighbour exchange), type 2
-  transitions (removal of small triangular cells), type 3 transitions (a border
-  vertex joining the free edge of a neighbouring cell, `EulerSolver(..., with_t3=True)`),
-  cell division, apoptosis and delamination.
-* **Behaviours**: schedule events with an `EventManager`. `append` queues an
-  event for the next step and `append_current` for the current one. An event
-  that is already queued with the same arguments is not added twice, unless
-  you pass `unique=False`.
-* **Tissue closure**: fuse the facing lateral walls of two monolayer fronts
-  into one continuous epithelium (`lumen_closure` and `fuse` behaviours). See the
-  [tissue closure notebook](notebooks/tissue_closure_demo.ipynb).
-* **Folding and overlap checks**: `check_intersections` reports cells that
-  fold over themselves or overlap during a simulation.
-* **Input and output**: HDF5 histories, Zarr (with the `zarr` extra), and mesh
-  export through `meshio`.
-
 
 ### General Structure of the modeling API
 
@@ -125,80 +192,19 @@ most importantly, in the case of a 2D vertex sheet for example, each
 junction edge between the cells is "splited" between two oriented **half
 edges**.
 
-
-#### Creating an Epithelium
-
-```python
-## Core object
-from tyssue import Sheet
-## Simple 2D geometry
-from tyssue import PlanarGeometry
-## Visualisation (matplotlib based)
-from tyssue.draw import sheet_view
-
-sheet = Sheet.planar_sheet_2d('basic2D', nx=6, ny=7,
-                              distx=1, disty=1)
-PlanarGeometry.update_all(sheet)
-sheet.sanitize()
-fig, ax = sheet_view(sheet)
-```
-
-### Documentation
-
-* The old documentation is still browsable online [here](http://tyssue.readthedocs.io/en/latest/)
-* Introduction notebooks are in [doc/notebooks](doc/notebooks) and on [tyssue.readthedocs.io](https://tyssue.readthedocs.io).
-* The [tissue closure notebook](notebooks/tissue_closure_demo.ipynb) shows
-  lateral-face fusion and apical-constriction lift on monolayers.
-* Changes between versions are listed in the [changelog](changelog.md).
-
-### Quick view with Colab
-
-To quickly try out and get an intution on how tyssue works, a jupyter notebook has been developed in [Google Colab](https://colab.research.google.com/github/vivarium-collective/tyssue/blob/main/notebooks/basic_usage_quick.ipynb).
-Google Colab is an on-line jupyter notebook that requires no setup and is free to use.
-To use it, simply sign in with your Google account and run all of the cells. 
-Feel free to try different geometries, topologies, and mechanical properties that you can set within the Google Colab environment.
-
 ## Visualisation
 Thanks to @kephale, there is a napari plugin to visualise tyssue simulation output.
 You can find it [here](https://github.com/kephale/napari-tyssue).
 
+## About this repository
 
-### Upcoming release
-The next PyPI release will be the first one built from this fork. Changes since
-`tyssue` 1.1.0:
+This repository is a fork of [DamCB/tyssue](https://github.com/DamCB/tyssue),
+created by Guillaume Gay, Sophie Theis, Magali Suzanne and the tyssue contributors.
+With the agreement of the original authors, tyssue is developed here by the
+[vivarium-collective](https://github.com/vivarium-collective), and the `tyssue`
+releases on PyPI are built from it starting with version 2.0.
 
-* **No more CGAL**: tyssue is a pure python package, installed with `pip`.
-* **Type 3 transitions** for 2D and apical sheets. The removal of small
-  triangular cells is now called a type 2 transition (`with_t2=`). The old
-  `with_t3=` name on `QSSolver` and the rearrangement functions still works,
-  but gives a `FutureWarning`.
-* **Simulation results differ from earlier versions**: unit edge vectors used
-  outdated edge lengths, which changed line tension and contractility forces,
-  most of all on short edges.
-* **`EventManager`**: new `append_current` and `extend_current` add events to
-  the current step. Duplicate events are now found by comparing all of their
-  arguments, not only `face_id`.
-* **`ActiveMigration`** reads its direction from the face columns `mx`, `my`
-  (and `mz`), and each cell's force is split between its vertices.
-* **Folding and overlap detection** (`check_intersections`) replaces the
-  previous collision solvers.
-* **Tissue closure** behaviours for monolayers.
-* **Cylinder and vessel geometries**, with their own model factories.
-* **Faster** sheet simulations (`reconnect` and boundary updates).
-
-See the [changelog](changelog.md) for the full list.
-
-### Roadmap
-You are welcome to participate in the development of `Tyssue`.
-What is planned for the future of `Tyssue`?
-* Resolve collisions in 2.5D & 3D (detection is already available through
-  `check_intersections`)
-* Use ZARR instead of HDF5 as the default file format (reading and writing
-  Zarr already works with the `zarr` extra)
-* Upgrade geometry creation
-  * Compound geometry to form complex shape
-  * Use biological image as blueprint
-* Add rheology model
+Contributions are welcome: open an issue or a pull request.
 
 ### Mailing list:
 
@@ -206,7 +212,6 @@ tyssue@framaliste.org - https://framalistes.org/sympa/info/tyssue
 
 Subscribe ➙ https://framalistes.org/sympa/subscribe/tyssue
 Unsubscribe ➙ https://framalistes.org/sympa/sigrequest/tyssue
-
 
 ### Authors
 
@@ -242,6 +247,7 @@ tyssue is tested on Linux, macOS and Windows with Python 3.10 to 3.13.
 ### Visualisation (`tyssue[viz]`)
 
 - ipyvolume
+- ipython_genutils
 - pythreejs
 - vispy
 - jupyter
@@ -252,50 +258,19 @@ tyssue is tested on Linux, macOS and Windows with Python 3.10 to 3.13.
 - zarr
 - xarray
 
-### Tests
+### Tests (`tyssue[test]`)
 
 - pytest
 - pytest-cov
 - nbval
 - nox
 
+### Documentation (`tyssue[docs]`)
+
+- jupyter-book 1.x
+- ipykernel
+
 </details>
-
-
-## Install
-
-tyssue no longer depends on CGAL and is a pure python package, installed from PyPI:
-
-```bash
-python -m pip install --upgrade tyssue
-```
-
-### Optional extras
-
-```bash
-python -m pip install "tyssue[viz]"   # 3D and interactive visualisation
-python -m pip install "tyssue[zarr]"  # zarr file support
-```
-
-The base install is enough to run simulations and to draw with matplotlib.
-The `viz` extra is needed for the ipyvolume and vispy 3D views.
-
-### Writing gifs
-
-`create_gif` and `create_gif_3d` use [ImageMagick](https://imagemagick.org),
-which is not a python package and has to be installed separately:
-
-| Platform | Command |
-| --- | --- |
-| macOS | `brew install imagemagick` |
-| Debian/Ubuntu | `sudo apt install imagemagick` |
-| Windows | [installer](https://imagemagick.org/script/download.php#windows) |
-
-### From source
-
-Until the [upcoming release](#upcoming-release) is published, install from source
-to get the features described in this README.
-See [INSTALL.md](INSTALL.md) for a step by step install.
 
 ## How to cite
 If you find `tyssue` useful please cite the original publication and the
@@ -305,6 +280,10 @@ If you find `tyssue` useful please cite the original publication and the
 >
 > Zenodo doi:10.5281/zenodo.4817609
 
+| ZENODO DOI | JOSS DOI |
+| --- | --- |
+| [![DOI](https://zenodo.org/badge/32533164.svg)](https://zenodo.org/badge/latestdoi/32533164) | [![DOI](https://joss.theoj.org/papers/10.21105/joss.02973/status.svg)](https://doi.org/10.21105/joss.02973) |
+
 ## Publications
 If `tyssue` has made a substantial contribution to your work, please edit this file and open a PR.
 
@@ -312,7 +291,7 @@ Lou Y, Rupprecht JF, Theis S, Hiraiwa T, and Saunders TE. Curvature-induced cell
 
 Rahman T, Peters F and Wan LQ. Cell Jamming Regulates Epithelial Chiral Morphogenesis. J Biomech. 2023. doi: [10.1016/j.jbiomech.2023.111435](https://doi.org/10.1016/j.jbiomech.2023.111435)
 
-Fiorentino J and Scialdone A. The role of cell geometry and cell-cell communication in gradient sensing. PLoS Comput Biol. 2022 doi: [10.1371/journal.pcbi.1009552](10.1371/journal.pcbi.1009552)
+Fiorentino J and Scialdone A. The role of cell geometry and cell-cell communication in gradient sensing. PLoS Comput Biol. 2022 doi: [10.1371/journal.pcbi.1009552](https://doi.org/10.1371/journal.pcbi.1009552)
 Related repository: [https://github.com/ScialdoneLab/2DLEGI](https://github.com/ScialdoneLab/2DLEGI)
 
 Courcoubetis G, Xu C, Nuzhdin SV, Haas S. Avalanches during epithelial tissue growth; Uniform Growth and a drosophila eye disc model, PLoS Comput Biol 2022 doi: [10.1371/journal.pcbi.1009952](https://doi.org/10.1371/journal.pcbi.1009952)
@@ -330,8 +309,7 @@ Related repository: [https://github.com/glyg/leg-joint](https://github.com/glyg/
 
 Since version 0.3, this project is distributed under the terms of the [General Public Licence](https://www.gnu.org/licenses/gpl.html).
 
-
-Versions 2.4 and earlier were distributed under the [Mozilla Public Licence](https://www.mozilla.org/en-US/MPL/2.0/).
+Versions before 0.3 were distributed under the [Mozilla Public Licence](https://www.mozilla.org/en-US/MPL/2.0/).
 
 If GPL licencing is too restrictive for your intended usage, please contact the maintainer.
 
