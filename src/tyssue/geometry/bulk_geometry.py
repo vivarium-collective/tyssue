@@ -12,6 +12,7 @@ class BulkGeometry(SheetGeometry):
     def update_all(cls, eptm):
         """
         Updates the eptm geometry by updating:
+
         * the edge vector coordinates
         * the edge lengths
         * the face centroids
@@ -118,6 +119,8 @@ class RNRGeometry(BulkGeometry):
 
 
 class MonolayerGeometry(RNRGeometry):
+    """Geometry for a monolayer with apical, basal and lateral faces."""
+
     @staticmethod
     def basal_apical_axis(eptm, cell):
         """
@@ -162,10 +165,15 @@ class MonoLayerGeometry(MonolayerGeometry):
 
 
 class ClosedMonolayerGeometry(MonolayerGeometry):
+    """Monolayer enclosing a lumen, whose volume is stored in
+    ``eptm.settings["lumen_vol"]``.
+    """
+
     @classmethod
     def update_all(cls, eptm):
         """
         Updates the eptm geometry by updating:
+
         * the edge vector coordinates
         * the edge lengths
         * the face centroids
@@ -181,7 +189,8 @@ class ClosedMonolayerGeometry(MonolayerGeometry):
 
     @staticmethod
     def update_lumen_vol(eptm):
-        """ """
+        """Computes the volume enclosed by the ``settings["lumen_side"]``
+        faces (default "basal")."""
         lumen_edges = eptm.edge_df[
             eptm.edge_df.segment == eptm.settings.get("lumen_side", "basal")
         ].copy()

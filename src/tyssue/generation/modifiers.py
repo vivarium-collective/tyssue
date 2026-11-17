@@ -12,23 +12,23 @@ def extrude(apical_datasets, method="homotecy", scale=0.3, vector=[0, 0, -1]):
 
     Parameters
     ----------
-    * apical_datasets: dictionnary of three DataFrames,
-    'vert', 'edge', 'face'
-    * method: str, optional {'homotecy'|'translation'|'normals'}
-    default 'homotecy'
-    * scale: float, optional
-    the scale factor for homotetic scaling, default 0.3.
-    * vector: sequence of three floats, optional,
-    used for the translation
+    apical_datasets : dict
+        dictionnary of three DataFrames, 'vert', 'edge', 'face'
+    method : str, optional {'homotecy'|'translation'|'normals'}
+        default 'homotecy'
+    scale : float, optional
+        the scale factor for homotetic scaling, default 0.3.
+    vector : sequence of three floats, optional
+        used for the translation, default [0, 0, -1]
 
-    default [0, 0, -1]
-
+    Notes
+    -----
     if `method == 'homotecy'`, the basal layer is scaled down from the
     apical one homoteticaly w/r to the center of the coordinate
     system, by a factor given by `scale`
 
     if `method == 'translation'`, the basal vertices are translated from
-    the apical ones by the vector `vect`
+    the apical ones by the vector `vector`
 
     if `method == 'normals'`, basal vertices are translated from
     the apical ones along the normal of the surface at each vertex,

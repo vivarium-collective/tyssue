@@ -2,6 +2,11 @@ import numpy as np
 
 
 def effector_tester(eptm, effector):
+    """Asserts that `effector`'s energy and gradient are finite and well shaped.
+
+    Modifies `eptm`: zeroes the edge unit vectors and sets missing spec
+    columns to 1.
+    """
 
     for u in eptm.ucoords:
         eptm.edge_df[u] = 0
@@ -35,6 +40,11 @@ def effector_tester(eptm, effector):
 
 
 def model_tester(eptm, model):
+    """Asserts that `model` (de)dimensionalizes its specs and computes finite,
+    well shaped energies and gradients.
+
+    Modifies `eptm`: zeroes the edge unit vectors and updates its specs.
+    """
 
     for u in eptm.ucoords:
         eptm.edge_df[u] = 0

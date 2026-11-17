@@ -16,21 +16,23 @@ def cell_division(monolayer, mother, orientation="vertical", psi=None):
 
     Parameters
     ----------
-    * monolayer: a :class:`Monolayer` instance
-    * mother: int, the index of the cell to devide
-    * orientation: str, {"vertical" | "horizontal" | "apical"}
-      if "horizontal", performs a division in the equatorial
-      plane of the cell. If "vertical" (the default), performs
-      a division along the basal-apical axis of the cell.
-      If "apical", performs a division cutting the apical face
-      perpendicularly to its principal axis
-    * psi: float, default 0
-      extra rotation angle of the division plane
-      around the basal-apical plane
+    monolayer : a :class:`Monolayer` instance
+    mother : int
+        the index of the cell to devide
+    orientation : str, {"vertical" | "horizontal" | "apical"}
+        if "horizontal", performs a division in the equatorial
+        plane of the cell. If "vertical" (the default), performs
+        a division along the basal-apical axis of the cell.
+        If "apical", performs a division cutting the apical face
+        perpendicularly to its principal axis
+    psi : float, default 0
+        extra rotation angle of the division plane
+        around the basal-apical plane
 
     Returns
     -------
-    * daughter: int, the index of the daughter cell
+    daughter : int
+        the index of the daughter cell
     """
 
     ab_axis = MonolayerGeometry.basal_apical_axis(monolayer, mother)

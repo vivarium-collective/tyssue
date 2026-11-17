@@ -42,9 +42,9 @@ def reconnect(sheet, manager, **kwargs):
 
     **The tricellular vertex-specific adhesion molecule Sidekick
     facilitates polarised cell intercalation during Drosophila axis
-    extension** _Tara M Finegan, Nathan Hervieux, Alexander
+    extension** *Tara M Finegan, Nathan Hervieux, Alexander
     Nestor-Bergmann, Alexander G. Fletcher, Guy B Blanchard, Benedicte
-    Sanson_ bioRxiv 704932; doi: https://doi.org/10.1101/704932
+    Sanson* bioRxiv 704932; doi: https://doi.org/10.1101/704932
 
     """
     sheet.settings.update(kwargs)
@@ -90,8 +90,8 @@ def t3(sheet, manager, **kwargs):
     :func:`tyssue.topology.sheet_topology.t3_transition`
 
     **Implementing vertex dynamics models of cell populations in biology within
-    a consistent computational framework** _Alexander G Fletcher, James M
-    Osborne, Philip K Maini, David J Gavaghan_ Progress in Biophysics and
+    a consistent computational framework** *Alexander G Fletcher, James M
+    Osborne, Philip K Maini, David J Gavaghan* Progress in Biophysics and
     Molecular Biology 113 (2013)
     """
     sheet.settings.update(kwargs)

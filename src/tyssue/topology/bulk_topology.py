@@ -427,10 +427,11 @@ identifier. Consider doing this at initialisation time
 
 def find_rearangements(eptm):
     """Finds the candidates for IH and HI transitions
+
     Returns
     -------
-    edges_HI: set of indexes of short edges
-    faces_IH: set of indexes of small triangular faces
+    edges_IH: set of indexes of short edges
+    faces_HI: set of indexes of small triangular faces
     """
     l_th = eptm.settings.get("threshold_length", 1e-2)
     shorts = eptm.edge_df[eptm.edge_df["length"] < l_th]

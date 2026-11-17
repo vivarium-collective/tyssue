@@ -35,7 +35,7 @@ def constriction(monolayer, manager, **kwargs):
 
     Parameters
     ----------
-    monolayer : a :cass:`Monolayer` object
+    monolayer : a :class:`Monolayer` object
     manager : a :class:`EventManager` object
     """
     constriction_spec = default_constriction_spec

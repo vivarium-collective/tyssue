@@ -41,8 +41,8 @@ class Epithelium:
             The first key designs the element name: (`vert`, `edge`, `face`, `cell`),
             corresponding to the respective dataframes attribute in the dataset.
             The second level keys design column names of the above dataframes.
-            For exemple:
-            .. code::
+            For exemple::
+
                 specs = {
                     "face": {
                         ## Face Geometry

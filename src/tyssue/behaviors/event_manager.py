@@ -63,8 +63,8 @@ class EventManager:
     def append(self, behavior, **kwargs):
         """Add an event to the manager's next deque
 
-        behavior is a function whose signature is
-        ..code :
+        behavior is a function whose signature is::
+
             behavior(sheet, manager, **kwargs)
 
         this function itself might populate the managers next deque

@@ -187,12 +187,12 @@ class QSSolver:
     def _opt_grad_pbc(self, pos, eptm, geom, model, box_increment=0.0001):
         """Gradient calculation for vertices along with an approximation for box size variable
 
-        Paramameters
-        ------------
+        Parameters
+        ----------
         pos: positions of vertices and last element is size of periodic box
         eptm: a :class:`tyssue.Epithlium` object ( function was made for 2D arrangments)
         geom : a geometry class
-        geom must provide an `update_all` method that takes `eptm`
+            geom must provide an `update_all` method that takes `eptm`
             as sole argument and updates the relevant geometrical quantities
         model : a model class
             model must provide `compute_energy` and `compute_gradient` methods

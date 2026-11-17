@@ -1,6 +1,6 @@
 """
 Mesoderm invagination event module
-=======================
+==================================
 
 
 """
@@ -44,6 +44,7 @@ def constriction(sheet, manager, **kwargs):
     dependent to the apical area allow an apico-basal
     traction of the cell. The cell can pull during max_traction
     time step, not necessarily consecutively.
+
     Parameters
     ----------
     sheet : a :class:`tyssue.sheet` object
@@ -131,12 +132,14 @@ def constriction(sheet, manager, **kwargs):
 def exchange_neighbour(sheet, manager, **kwargs):
     """
     Executes neighbour exchanges for a face:
+
     1. if face_df[face, 'try_collapse_edge'] is True:
-        collapse that face's shortest edge into a vert
+       collapse that face's shortest edge into a vert
     2. if face_df[face, 'try_expand_vert'] is True:
-        expand that face's highest-order vert into an edge
+       expand that face's highest-order vert into an edge
 
     If either or both was successful:
+
     1. Stores index of the new vert in face_df[face, 'edge_collapsed']
     2. Stores index of the new edge in face_df[face, 'vert_expanded']
 
@@ -145,13 +148,14 @@ def exchange_neighbour(sheet, manager, **kwargs):
     sheet : a :class:`tyssue.sheet` object
     manager : a :class:`tyssue.events.EventManager` object
     **kwargs : parameters for the event, indices:
-        face_id: id of the face being checked for exchange events
-        critical_area: optional, default 1e-2,
-            events are only executed if face area larger than this
-        minimum_edges: optional, default 3
-            edge will not be collapsed if face with fewer sides would result
-        maximum_edges: optional, default 10
-            vert will not be expanded if face with more sides would result
+
+        - face_id: id of the face being checked for exchange events
+        - critical_area: optional, default 1e-2,
+          events are only executed if face area larger than this
+        - minimum_edges: optional, default 3
+          edge will not be collapsed if face with fewer sides would result
+        - maximum_edges: optional, default 10
+          vert will not be expanded if face with more sides would result
     """
     exchange_spec = {
         "face_id": -1,

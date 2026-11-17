@@ -6,6 +6,18 @@ from .sheet import Sheet
 
 
 class MultiSheet:
+    """A stack of :class:`Sheet` layers, iterable and indexable by layer.
+
+    Parameters
+    ----------
+    name : str
+        layer ``i`` is named ``"{name}_{i}"``
+    layer_datasets : list of dicts
+        one datasets dict per layer, from bottom to top
+    specs : dict
+        specs shared by all the layers
+    """
+
     def __init__(self, name, layer_datasets, specs):
 
         self.coords = ["x", "y", "z"]

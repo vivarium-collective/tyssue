@@ -14,6 +14,7 @@ class SheetGeometry(PlanarGeometry):
     def update_all(cls, sheet):
         """
         Updates the sheet geometry by updating:
+
         * the edge vector coordinates
         * the edge lengths
         * the face centroids
@@ -76,18 +77,19 @@ class SheetGeometry(PlanarGeometry):
 
         `sheet.settings['geometry']` can be set to
 
-          - `cylindrical`: the vertex height is
-             measured with respect to the distance to the the axis
-             specified in sheet.settings['height_axis'] (e.g `z`)
-          - `flat`: the vertex height is
-             measured with respect to the position on the axis
-             specified in sheet.settings['height_axis']
-          - 'spherical': the vertex height is measured with respect to its
-             distance to the coordinate system centers
-          - 'rod': the vertex height is measured with respect to its
-             distance to the coordinate height axis if between the focii, and
-             from the closest focus otherwise. The focii positions are updated
-             before the height update.
+        - `cylindrical`: the vertex height is
+          measured with respect to the distance to the the axis
+          specified in sheet.settings['height_axis'] (e.g `z`)
+        - `flat`: the vertex height is
+          measured with respect to the position on the axis
+          specified in sheet.settings['height_axis']
+        - 'spherical': the vertex height is measured with respect to its
+          distance to the coordinate system centers
+        - 'rod': the vertex height is measured with respect to its
+          distance to the coordinate height axis if between the focii, and
+          from the closest focus otherwise. The focii positions are updated
+          before the height update.
+
         In all the cases, this distance is shifted by an amount of
         `sheet.vert_df['basal_shift']`
         """
@@ -162,7 +164,7 @@ class SheetGeometry(PlanarGeometry):
 
         Parameters
         ----------
-        sheet: a :class:Sheet object
+        sheet: a :class:`Sheet` object
         face: int,
           the index of the face on which to rotate the sheet
         psi: float,
@@ -194,7 +196,7 @@ class SheetGeometry(PlanarGeometry):
 
         Parameters
         ----------
-        sheet: a :class:Sheet object
+        sheet: a :class:`Sheet` object
         face: int,
           the index of the face on which to rotate the sheet
         psi: float,
@@ -334,6 +336,12 @@ class ClosedSheetGeometry(SheetGeometry):
 
 
 class EllipsoidGeometry(ClosedSheetGeometry):
+    """Closed sheet inside an ellipsoidal vitelline envelope.
+
+    The envelope's semi-axes are ``eptm.settings["abc"]``; the vertices'
+    "basal_shift" follows the envelope radius at their `z` position.
+    """
+
     @staticmethod
     def update_height(eptm):
         a, b, c = eptm.settings["abc"]

@@ -154,7 +154,7 @@ def face_frames(eptm, cache: RingCache, pos: np.ndarray | None = None):
 
     Returns (c, N, u, w, P2, D, fan_area): P2 is the ring projected into (u, w),
     D holds the local differences p_i - c_F, and fan_area is tyssue's own face area
-    (the sum of |n_i|/2 over half-edges).
+    (the sum of ``|n_i|/2`` over half-edges).
     """
     P = _positions(eptm) if pos is None else pos
     ring = P[cache.RING]                                   # (Nf, nmax, 3)
@@ -463,10 +463,15 @@ def find_intersections(eptm, cache: RingCache | None = None, *, strict: bool = F
                        trigger: str | None = None, slab: float = 0.25) -> Result:
     """Run the intersection tests on an epithelium.
 
-    strict   also run Test C (pairwise overlap), the slowest test.
-    trigger  "folded" runs Test B only on faces adjacent to a self-crossing
-             one. Faster, but misses convex cells sliding through each other.
-    slab     see :func:`contained_vertices`
+    Parameters
+    ----------
+    strict : bool
+        also run Test C (pairwise overlap), the slowest test.
+    trigger : str, optional
+        "folded" runs Test B only on faces adjacent to a self-crossing
+        one. Faster, but misses convex cells sliding through each other.
+    slab : float
+        see :func:`contained_vertices`
     """
     cache = ring_matrix(eptm, cache)
     P = _positions(eptm)
