@@ -76,6 +76,8 @@ def set_data_columns(datasets, specs, reset=False):
     specs : dict of dicts
     reset : bool, default False
 
+    Notes
+    -----
     For each key in specs, the value is a dictionnary whose
     keys are column names for the corresponding dataframe in
     datasets. If there is no such column in the dataframe,

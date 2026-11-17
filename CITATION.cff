@@ -5,8 +5,8 @@ message: >-
   (preferred-citation) and the software archive below.
 type: software
 license: GPL-3.0
-repository-code: "https://github.com/vivarium-collective/vivatyssue"
-url: "https://github.com/vivarium-collective/vivatyssue"
+repository-code: "https://github.com/vivarium-collective/tyssue"
+url: "https://github.com/vivarium-collective/tyssue"
 abstract: >-
   tyssue is a living tissues, cell level, modeling library. This is the
   maintained continuation of DamCB/tyssue, developed by the

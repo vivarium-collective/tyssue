@@ -12,7 +12,7 @@ __doc__ = """Available predefined datasets:""" + "\n".join(stores_list)
 def load_datasets(store, **kwargs):
     """
     This will soon be deprecated, use the leaner
-    `tyssue.stores.stores_dir and tyssue.stores.stores_list
+    `tyssue.stores.stores_dir` and `tyssue.stores.stores_list`
     """
 
     cur_dir = os.path.abspath(os.path.dirname(__file__))
@@ -20,7 +20,7 @@ def load_datasets(store, **kwargs):
     warnings.warn(
         """
     This will soon be deprecated, use the leaner
-    `tyssue.stores.stores_dir and tyssue.stores.stores_list
+    `tyssue.stores.stores_dir` and `tyssue.stores.stores_list`
     """
     )
     filename = os.path.join(cur_dir, store)

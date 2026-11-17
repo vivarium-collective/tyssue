@@ -96,3 +96,11 @@ notebooks/closure_demo_output/
 
 # python bytecode cache
 __pycache__/
+
+# docs: conf.py is generated from doc/_config.yml by `jupyter-book config sphinx doc/`
+doc/conf.py
+doc/_build/
+# media written by the tutorials when the docs execute them
+doc/notebooks/*.gif
+doc/notebooks/*.hf5
+doc/notebooks/*.zarr/

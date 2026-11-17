@@ -3,13 +3,13 @@ An epithelial sheet, i.e a 2D mesh in a 2D or 3D space,
 akin to a HalfEdge data structure in CGAL.
 
 For purely 2D the geometric properties are defined in
- `tyssue.geometry.planar_geometry`
+`tyssue.geometry.planar_geometry`
 A dynamical model derived from Fahradifar et al. 2007 is provided in
 `tyssue.dynamics.planar_vertex_model`
 
 
 For 2D in 3D, the geometric properties are defined in
- `tyssue.geometry.sheet_geometry`
+`tyssue.geometry.sheet_geometry`
 A dynamical model derived from Monier, Gettings et al. 2015 is provided in
 `tyssue.dynamics.sheet_vertex_model`
 
@@ -90,17 +90,18 @@ class Sheet(Epithelium):
         - `self.east_edges`: half of the `dble_edges`, pointing east
           (figuratively)
         - `self.west_edges`: half of the `dble_edges`, pointing west
-           (the order of the east and west edges is conserved, so that
-           the ith west half-edge is the opposite of the ith east half-edge)
+          (the order of the east and west edges is conserved, so that
+          the ith west half-edge is the opposite of the ith east half-edge)
         - `self.sgle_edges`: joint index over free and east edges, spanning
-           the entire graph without double edges
+          the entire graph without double edges
         - `self.wrpd_edges`: joint index over free edges followed by the
-           east edges twice, such that a vector over the whole half-edge
-            dataframe is wrapped over the single edges
+          east edges twice, such that a vector over the whole half-edge
+          dataframe is wrapped over the single edges
         - `self.srtd_edges`: index over the whole half-edge sorted such that
-           the free edges come first, then the east, then the west
+          the free edges come first, then the east, then the west
 
         Also computes:
+
         - `self.Ni`: the number of inside full edges
           (i.e. `len(self.east_edges)`)
         - `self.No`: the number of outside full edges
@@ -322,21 +323,22 @@ class Sheet(Epithelium):
 
         g_gamma_matrix*tension_vector = 0
         Equation is homogenous and to avoid tension_vectors = 0,
-        Construction and solve the constrained least-squares equation system
-        [[g_gamma_matrix.T g_gamma_matrix, C^T_1],
-         [C_1, 0]]
-         où C1 = {1....1}
+        Construction and solve the constrained least-squares equation system::
+
+            [[g_gamma_matrix.T g_gamma_matrix, C^T_1],
+             [C_1, 0]]
+             où C1 = {1....1}
 
         shape of g_gamma_matrix = (Ne/2, Nv*len(coords))
 
-         .. note:: Results might not be consistens for highly curved epithelium
+        .. note:: Results might not be consistens for highly curved epithelium
 
         Parameters
         ----------
         coords: coordinates
         column: None, specify a column name in edge_df to put tension value
         free_border_edges: bool, default False, take into account edges in the
-        border of the tissue if True
+            border of the tissue if True
 
         Returns
         -------
@@ -469,6 +471,20 @@ class Sheet(Epithelium):
 
 
 def get_opposite(edge_df, raise_if_invalid=False):
+    """Returns the index of each half-edge's opposite, -1 where it has none.
+
+    Parameters
+    ----------
+    edge_df : pd.DataFrame
+        with "srce" and "trgt" columns
+    raise_if_invalid : bool, default False
+        if True, raise a ValueError on duplicated (srce, trgt) pairs;
+        otherwise warn, and the first such row is matched.
+
+    Returns
+    -------
+    opposite : np.ndarray
+    """
     srce = edge_df["srce"].to_numpy()
     trgt = edge_df["trgt"].to_numpy()
     edge_idx = edge_df.index.to_numpy()

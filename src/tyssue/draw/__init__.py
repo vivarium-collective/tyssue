@@ -29,7 +29,7 @@ def sheet_view(sheet, coords=["x", "y", "z"], ax=None, mode="2D", **draw_specs_k
     sheet: :class:`Epithelium` instance
     coords: list of strings,
      the coordinates over which to do the plot
-    ax: :class:matplotlib.Axes instance, default None
+    ax: :class:`matplotlib.Axes` instance, default None
      axis over which to plot the sheet, for quick and
     mode: str, {'2D'|'quick'|'3D'|'vispy'}, default '2D'
      the type of graph to plot (see bellow)

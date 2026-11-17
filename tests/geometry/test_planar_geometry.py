@@ -230,12 +230,12 @@ def test_boundary_index_follows_topology(monkeypatch):
 
 def test_cylinder_boundary_index_keeps_face_column():
     from tyssue import Sheet
-    from tyssue.geometry.cylinder_geometry import CylinderGeometryInit
+    from tyssue.geometry.cylinder_geometry import CylinderGeometry
 
     sheet = Sheet.planar_sheet_3d("flat", 6, 6, 1, 1)
     sheet.sanitize()
     sheet.face_df["boundary"] = 7
-    CylinderGeometryInit.update_boundary_index(sheet)
+    CylinderGeometry.update_boundary_index(sheet)
     assert (sheet.face_df["boundary"] == 7).all()
     assert sheet.vert_df["boundary"].sum() > 0
     # a later full index does write the face column

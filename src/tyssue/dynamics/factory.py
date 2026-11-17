@@ -127,7 +127,10 @@ Setting all default values to 1.0 for now
     return NewModel
 
 def model_factory_vessel(effectors, ref_effector=None):
-    """Produces a Model class with the provided effectors.
+    """Produces a Model class with the provided effectors, for a vessel.
+
+    Same as :func:`model_factory`, except that the bottom border vertices
+    (``boundary == 1`` and z < 1) do not move along z.
 
     Parameters
     ----------
@@ -255,7 +258,12 @@ Setting all default values to 1.0 for now
     return NewModel
 
 def model_factory_cylinder(effectors, ref_effector=None):
-    """Produces a Model class with the provided effectors.
+    """Produces a Model class with the provided effectors, for an open tube.
+
+    Same as :func:`model_factory`, except that the bottom border vertices
+    (``boundary == 1`` and z < 0) do not move, and the top border vertices
+    (z > 0) only move along z. Use with
+    :class:`~tyssue.geometry.cylinder_geometry.CylinderGeometry`.
 
     Parameters
     ----------
@@ -376,7 +384,10 @@ Setting all default values to 1.0 for now
     return NewModel
 
 def model_factory_bound(effectors, ref_effector=None):
-    """Produces a Model class with the provided effectors.
+    """Produces a Model class with the provided effectors and fixed borders.
+
+    Same as :func:`model_factory`, except that the border vertices
+    (``vert_df["boundary"] == 1``) do not move.
 
     Parameters
     ----------

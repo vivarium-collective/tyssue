@@ -328,54 +328,56 @@ def create_gif_3d(
 def sheet_view(sheet, coords=COORDS, ax=None, cbar_axis=None, legend=None, **draw_specs_kw):
     """Base view function, parametrizable
     through draw_secs
-    The default sheet_spec specification is:
-    {
-        "edge": {
-            "visible": true,
-            "width": 0.5,
-            "head_width": 0.0,
-            "length_includes_head": true,
-            "shape": "right",
-            "color": "#2b5d0a",
-            "alpha": 0.8,
-            "zorder": 1,
-            "colormap": "viridis"
-        },
-        "vert": {
-            "visible": false,
-            "s": 100,
-            "color": "#000a4b",
-            "alpha": 0.3,
-            "zorder": 2
-        },
-        "grad": {
-            "color":"#000a4b",
-            "alpha":0.5,
-            "width":0.04
-        },
-        "face": {
-            "visible": false,
-            "color":"#8aa678",
-            "alpha": 1.0,
-            "zorder": -1
-        },
-        "axis": {
-            "autoscale": true,
-            "color_bar": false,
-            "color_bar_cmap":"viridis",
-            "color_bar_range":false,
-            "color_bar_label":false,
-            "color_bar_target":"face"
+
+    The default sheet_spec specification is::
+
+        {
+            "edge": {
+                "visible": true,
+                "width": 0.5,
+                "head_width": 0.0,
+                "length_includes_head": true,
+                "shape": "right",
+                "color": "#2b5d0a",
+                "alpha": 0.8,
+                "zorder": 1,
+                "colormap": "viridis"
+            },
+            "vert": {
+                "visible": false,
+                "s": 100,
+                "color": "#000a4b",
+                "alpha": 0.3,
+                "zorder": 2
+            },
+            "grad": {
+                "color":"#000a4b",
+                "alpha":0.5,
+                "width":0.04
+            },
+            "face": {
+                "visible": false,
+                "color":"#8aa678",
+                "alpha": 1.0,
+                "zorder": -1
+            },
+            "axis": {
+                "autoscale": true,
+                "color_bar": false,
+                "color_bar_cmap":"viridis",
+                "color_bar_range":false,
+                "color_bar_label":false,
+                "color_bar_target":"face"
+            }
         }
-    }
 
     Note
     ----
 
     Important note for quantitative colormap plots: make sure to normalize your
-    values before getting the colors using
+    values before getting the colors using::
 
-         draw_specs["face"]["color"] = cmap(pandas_holding_quantity_of_interest)
+        draw_specs["face"]["color"] = cmap(pandas_holding_quantity_of_interest)
 
     For each plot normalize with respect to the current values
     (max and min) such that they lie between and including 0 to 1.
@@ -927,15 +929,15 @@ def plot_scaled_energies(sheet, geom, model, scales, ax=None):
 
     Parameters
     ----------
-    sheet: a:class: Sheet object
+    sheet: a :class:`Sheet` object
     geom: a :class:`Geometry` class
-    model: a :class:'Model'
+    model: a :class:`Model`
     scales: np.linspace of float
 
     Returns
     -------
-    fig: a :class:matplotlib.figure.Figure instance
-    ax: :class:matplotlib.Axes instance, default None
+    fig: a :class:`matplotlib.figure.Figure` instance
+    ax: :class:`matplotlib.Axes` instance, default None
     """
 
     from ..utils import scaled_unscaled

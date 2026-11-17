@@ -189,7 +189,7 @@ def generate_lateral_tissue(Nf, length, height):
 
     Returns
     -------
-    eptm : :class:'LateralSheet'
+    eptm : :class:`LateralSheet`
         2D lateral tissue
     """
 

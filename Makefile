@@ -1,7 +1,7 @@
-.PHONY: flake8 test coverage
+.PHONY: flake8 test coverage nbtest pdbtest docs
 
 flake8:
-	flake8 --max-line-length=100 --count --statistics --exit-zero tyssue/
+	flake8 --max-line-length=100 --count --statistics --exit-zero src/tyssue/
 
 test:
 	cd tests && pytest . && cd ..
@@ -14,3 +14,6 @@ nbtest:
 
 pdbtest:
 	cd tests && pytest --pdb . && cd ..
+
+docs:
+	jupyter-book build doc/

@@ -37,7 +37,7 @@ class EdgeSubdiv:
           edge indices repeated to match the lookup table
         offset: np.ndarray, shape (Np,)
           piecewise linear offset along the edges, such that
-          ::math:M_{ij}^n = offset[n]*r_{ij}:
+          :math:`M_{ij}^n = offset[n]*r_{ij}`
 
         """
 
@@ -91,10 +91,10 @@ class EdgeSubdiv:
         Parameters
         ----------
         offset_lut: function, default None,
-          edge-wise function of the number of points
-          giving the offset positions
-        Default is a shifted regular grid:
-        `np.arange(0.5, num+0.5) / num`
+            edge-wise function of the number of points
+            giving the offset positions.
+            Default is a shifted regular grid:
+            ``np.arange(0.5, num+0.5) / num``
 
         """
         if offset_lut is None:
@@ -105,8 +105,8 @@ class EdgeSubdiv:
     def update_particles(self):
         """
         * Updates the number of particles per edge from edges length
-        and density values:
-        `num_particles = length * density`
+          and density values:
+          ``num_particles = length * density``
         * Also updates the self.points df
         """
         self.edge_df["norm_length"] = self.edge_df["length"] / self.unit_length

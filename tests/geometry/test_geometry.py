@@ -1,6 +1,7 @@
 import os
 
 import numpy as np
+import pandas as pd
 import pytest
 
 from tyssue import config
@@ -119,14 +120,14 @@ def _deviation_brute_force(sheet):
 
 
 def test_vert_deviation():
-    from tyssue.geometry.cylinder_geometry import CylinderGeometryInit
+    from tyssue.geometry.cylinder_geometry import CylinderGeometry
     from tyssue.utils.connectivity import vertex_rank
 
     cols = ["dev_length", "dx", "dy", "dz"]
 
     # open mesh: boundary vertices of rank 2 and 3 and interior vertices alike
     sheet = _open_cylinder()
-    CylinderGeometryInit.update_all(sheet)  # used to fail on border vertices
+    CylinderGeometry.update_all(sheet)  # used to fail on border vertices
     assert set(vertex_rank(sheet)) == {2, 3}
     np.testing.assert_allclose(
         sheet.vert_df[cols].to_numpy(), _deviation_brute_force(sheet), atol=1e-12
@@ -141,14 +142,39 @@ def test_vert_deviation():
     collapse_edge(sheet, inner[len(inner) // 2])
     sgeom.update_all(sheet)
     assert vertex_rank(sheet).max() == 4
-    CylinderGeometryInit.update_vert_deviation(sheet)
+    CylinderGeometry.update_vert_deviation(sheet)
     expected = sheet.vert_df[cols].to_numpy().copy()
     np.testing.assert_allclose(expected, _deviation_brute_force(sheet), atol=1e-12)
 
     shuffled = sheet.copy()
     shuffled.edge_df = shuffled.edge_df.sample(frac=1, random_state=0)
-    CylinderGeometryInit.update_vert_deviation(shuffled)
+    CylinderGeometry.update_vert_deviation(shuffled)
     np.testing.assert_array_equal(shuffled.vert_df[cols].to_numpy(), expected)
+
+
+def test_cylinder_geometry_init_is_deprecated_alias():
+    from tyssue.geometry.cylinder_geometry import CylinderGeometry, CylinderGeometryInit
+
+    expected = _open_cylinder()
+    CylinderGeometry.update_all(expected)
+    sheet = _open_cylinder()
+    with pytest.warns(FutureWarning, match="CylinderGeometry"):
+        CylinderGeometryInit.update_all(sheet)
+    pd.testing.assert_frame_equal(sheet.vert_df, expected.vert_df)
+    assert sheet.settings["lumen_vol"] == expected.settings["lumen_vol"]
+
+
+def test_cylinder_tangents_with_offset_index():
+    from tyssue.geometry.cylinder_geometry import CylinderGeometry
+
+    sheet = _open_cylinder()
+    sheet.vert_df.index += 100
+    sheet.edge_df[["srce", "trgt"]] += 100
+    CylinderGeometry.update_tangents(sheet)
+    tangents = sheet.vert_df[["tx", "ty", "tz"]].to_numpy()
+    radial = sheet.vert_df[["x", "y"]].to_numpy()
+    np.testing.assert_allclose(np.linalg.norm(tangents, axis=1), 1.0)
+    np.testing.assert_allclose((tangents[:, :2] * radial).sum(axis=1), 0.0, atol=1e-12)
 
 
 def _idempotence_cases():
@@ -156,10 +182,7 @@ def _idempotence_cases():
     from tyssue.generation import ellipsoid_sheet, extrude, three_faces_sheet
     from tyssue.generation.shapes import generate_ring
     from tyssue.geometry.bulk_geometry import BulkGeometry, MonolayerGeometry
-    from tyssue.geometry.cylinder_geometry import (
-        CylinderGeometry,
-        CylinderGeometryInit,
-    )
+    from tyssue.geometry.cylinder_geometry import CylinderGeometry
     from tyssue.geometry.planar_geometry import AnnularGeometry, PlanarGeometry
     from tyssue.geometry.sheet_geometry import (
         ClosedSheetGeometry,
@@ -189,7 +212,6 @@ def _idempotence_cases():
         (VesselGeometry, flat),
         (ClosedSheetGeometry, lambda: ellipsoid_sheet(3, 3, 4, 12)),
         (EllipsoidGeometry, lambda: ellipsoid_sheet(3, 3, 4, 12)),
-        (CylinderGeometryInit, _open_cylinder),
         (CylinderGeometry, _open_cylinder),
         (BulkGeometry, mono),
         (MonolayerGeometry, mono),

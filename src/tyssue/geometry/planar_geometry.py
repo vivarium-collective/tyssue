@@ -123,6 +123,7 @@ class PlanarGeometry(BaseGeometry):
     def update_all(cls, sheet):
         """
         Updates the sheet geometry by updating:
+
         * the edge vector coordinates
         * the edge lengths
         * the face centroids
@@ -247,11 +248,13 @@ class WeightedPerimeterPlanarGeometry(PlanarGeometry):
 
     Meaning if all junction of a cell have the same weight, perimeter is
     calculated as a usual perimeter calculation:
+
     .. math::
         p = \\sum_{ij} l_{ij}
 
     Otherwise, weight parameter allowed more or less importance of a junction in the
-    perimeter calculation
+    perimeter calculation:
+
     .. math::
         p = \\sum_{ij} w_{ij} \\, l_{ij}
 

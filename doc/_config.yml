@@ -1,8 +1,23 @@
-title: "Tyssue, an epithelium simulation library"
+title: "tyssue, an epithelium simulation library"
+author: tyssue contributors
+copyright: "2016-2026"
 logo: illus/logo.png
-execute:
-  execute_notebooks: "auto"
 
+# The tutorials are committed without outputs and run against the current code
+# on every build.
+execute:
+  execute_notebooks: force
+  timeout: 600
+  allow_errors: false
+
+repository:
+  url: https://github.com/vivarium-collective/tyssue
+  branch: main
+  path_to_book: doc
+
+html:
+  use_repository_button: true
+  use_issues_button: true
 
 sphinx:
   extra_extensions:
@@ -11,11 +26,20 @@ sphinx:
     - sphinx.ext.mathjax
     - sphinx.ext.viewcode
     - sphinx.ext.napoleon
+  config:
+    autoclass_content: both
+    autodoc_member_order: bysource
+    # vispy is imported unguarded by tyssue.draw.vispy_draw and needs OpenGL.
+    autodoc_mock_imports:
+      - vispy
+    napoleon_numpy_docstring: true
+    napoleon_google_docstring: false
+    # fail the build when a tutorial raises, instead of publishing a broken page
+    nb_execution_raise_on_error: true
+    # heading levels in the tutorials' markdown
+    suppress_warnings:
+      - myst.header
 
-exclude_patterns :
-    - '_build'
-    - '**.ipynb_checkpoints'
-    - '**test**'
-    - 'setup.py'
-    - '**/tests'
-    - 'pybind11'
+exclude_patterns:
+  - _build
+  - "**.ipynb_checkpoints"

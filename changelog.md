@@ -1,4 +1,7 @@
-# What's new in 0.8.0
+# What's new in 2.0.0
+
+The first release from the
+[vivarium-collective fork](https://github.com/vivarium-collective/tyssue).
 
 ## Build & dependencies
 
@@ -8,6 +11,10 @@
   `tyssue.collisions.solvers` (`auto_collisions`, `CollidingBoxes*`,
   `solve_sheet_collisions`, `solve_bulk_collisions`), and the `with_collisions`
   argument of `QSSolver`. Use `tyssue.collisions.intersections` instead.
+- **Removed** the `EulerSolver` subclasses `EulerSolverDivision` and
+  `EulerSolverDiv` from `tyssue.solvers.viscous`. They hard-coded random
+  divisions in `solve`; write a division event and pass an `EventManager` to
+  `EulerSolver` instead.
 - `generation.shapes.spherical_sheet` and `spherical_monolayer` are available
   again, using a numpy `generation.shapes.make_spherical`.
 
@@ -47,7 +54,14 @@
 
 ## Cylinder geometry
 
-- `CylinderGeometryInit.update_vert_deviation` uses all the neighbours of each
+- `CylinderGeometryInit` and `CylinderGeometry` are merged into
+  `CylinderGeometry`. `CylinderGeometryInit` still works, with a
+  `FutureWarning`. The unused `update_face_tangents`, `update_face_distance`,
+  `update_vol_cell`, `update_boundary_radius` and `update_preflumen_volume`
+  were removed.
+- `CylinderGeometry.update_tangents` no longer gives NaN tangents when the
+  vertex index is not `0..Nv-1`.
+- `update_vert_deviation` uses all the neighbours of each
   vertex, not the first three in `edge_df`, and no longer fails on open meshes.
   Rank 3 vertices are unchanged. `update_vert_deviation2` was removed.
 
@@ -61,6 +75,22 @@
   Results are unchanged.
 - `get_opposite` is ~8x faster; with duplicated (`srce`, `trgt`) pairs the
   first row is matched.
+
+## Documentation
+
+- The tutorial notebooks, previously the `tyssue-demo` submodule, are now in
+  `doc/notebooks` and run at each documentation build.
+- New tutorials on type 3 transitions and on tubes, vessels, active migration
+  and fixed borders; `append_current`, zarr and intersection checks added to
+  the existing ones.
+- The API reference covers every public module.
+
+# Releases 0.9 to 1.1.0
+
+These were published from [DamCB/tyssue](https://github.com/DamCB/tyssue/releases)
+and are not listed here.
+
+# What's new in 0.8.0
 
 ## Core
 
@@ -241,7 +271,7 @@ In EulerSolver, this avoids raising `TopologyChangeError` at least in explicit E
 
 ##  Time dependant solvers
 
-- Added two time-dependant solvers `solvers.viscous.EulerSolver` and `solvers.viscous.IVPSolver` -- see [the demo](doc/notebooks/SimpleTimeDependent.ipynb)
+- Added two time-dependant solvers `solvers.viscous.EulerSolver` and `solvers.viscous.IVPSolver` -- see the `SimpleTimeDependent` demo notebook of that release
 
 - Added a connectivity matrices module
 

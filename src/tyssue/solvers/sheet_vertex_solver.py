@@ -8,6 +8,12 @@ from .. import config
 
 
 class Solver:
+    """Energy minimization of a sheet with :func:`scipy.optimize.minimize`.
+
+    `find_energy_min` moves the active vertices, within bounds of twice the
+    longest edge, using the model's analytical gradient.
+    """
+
     @classmethod
     def find_energy_min(cls, sheet, geom, model, pos_idx=None, **settings_kw):
         # Loads 'tyssue/config/solvers/minimize.json

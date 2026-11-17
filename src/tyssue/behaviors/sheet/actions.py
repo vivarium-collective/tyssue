@@ -234,11 +234,13 @@ def find_t3_candidates(sheet, d_min, skin=None):
 def _t3_topology(sheet, bnd):
     """The parts of the T3 search that only depend on topology.
 
-    nv, nf     element counts the keys are built with
-    border     positional indices of every vertex on a free edge
-    face_keys  sorted `vert * Nf + face` keys, a border vertex in a face
-    link_keys  sorted `srce * Nv + trgt` keys, a half-edge from or to a border
-               vertex
+    Returns a dict with keys::
+
+        nv, nf     element counts the keys are built with
+        border     positional indices of every vertex on a free edge
+        face_keys  sorted `vert * Nf + face` keys, a border vertex in a face
+        link_keys  sorted `srce * Nv + trgt` keys, a half-edge from or to a border
+                   vertex
     """
     edge_df = sheet.edge_df
     nv, nf = len(sheet.vert_df), len(sheet.face_df)
