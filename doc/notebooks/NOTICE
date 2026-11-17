@@ -1,0 +1,8 @@
+The notebooks 00-08 and A-D, and the images in illus/, come from
+https://github.com/DamCB/tyssue-demo (commit dd5eeb5, 2024-02-13), by the
+tyssue contributors, and are distributed under the Mozilla Public License 2.0
+(see LICENSE in this directory). They have been modified for tyssue 2.0.
+
+The data files in data/ and the notebooks E-T3Transitions and
+F-CylinderVesselMigration are part of tyssue and distributed under its license
+(GPL-3.0, see the LICENSE file at the root of the repository).

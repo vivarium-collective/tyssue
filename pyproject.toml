@@ -54,6 +54,7 @@ dependencies = [
 # or for the matplotlib drawing in tyssue.draw.plt_draw.
 viz = [
   "ipyvolume",
+  "ipython_genutils",  # imported by ipyvolume 0.6 but not declared by it
   "pythreejs",
   "vispy",
   "jupyter",
@@ -77,17 +78,17 @@ dev = [
   "nbval",
 ]
 docs = [
-  "Sphinx",
-  "myst_parser",
-  "sphinx-book-theme",
-  "sphinx_copybutton",
+  # jupyter-book 2.x dropped `jupyter-book config sphinx`, used by Read the Docs.
+  "jupyter-book>=1.0.3,<2",
+  "ipykernel",
 ]
 
 [project.urls]
-Homepage = "https://github.com/vivarium-collective/vivatyssue"
-"Bug Tracker" = "https://github.com/vivarium-collective/vivatyssue/issues"
-Discussions = "https://github.com/vivarium-collective/vivatyssue/discussions"
-Changelog = "https://github.com/vivarium-collective/vivatyssue/releases"
+Homepage = "https://github.com/vivarium-collective/tyssue"
+Documentation = "https://tyssue.readthedocs.io"
+"Bug Tracker" = "https://github.com/vivarium-collective/tyssue/issues"
+Discussions = "https://github.com/vivarium-collective/tyssue/discussions"
+Changelog = "https://github.com/vivarium-collective/tyssue/releases"
 "Upstream project" = "https://github.com/DamCB/tyssue"
 
 [tool.hatch.version]

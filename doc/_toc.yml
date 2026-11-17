@@ -1,16 +1,40 @@
-format: jb-article
+format: jb-book
 root: index
-sections:
-- file: notebooks/00-Basic_Usage.ipynb
-- file: notebooks/01-Geometry.ipynb
-- file: notebooks/02-Visualization.ipynb
-- file: notebooks/03-Dynamics.ipynb
-- file: notebooks/04-Solvers.ipynb
-- file: notebooks/05-Rearangments.ipynb
-- file: notebooks/06-Cell_Division.ipynb
-- file: notebooks/07-EventManager.ipynb
-- file: notebooks/A-ReversibleNetworkReconnection.ipynb
-- file: notebooks/B-Apoptosis.ipynb
-- file: notebooks/C-2DMigration.ipynb
-- file: notebooks/D-FarhadifarModel.ipynb
-- file: API
+parts:
+  - caption: Getting started
+    chapters:
+      - file: install
+  - caption: Tutorials
+    chapters:
+      - file: notebooks/00-Basic_Usage
+      - file: notebooks/01-Geometry
+      - file: notebooks/02-Visualization
+      - file: notebooks/03-Dynamics
+      - file: notebooks/04-Solvers
+      - file: notebooks/05-Rearangments
+      - file: notebooks/06-Cell_Division
+      - file: notebooks/07-EventManager
+      - file: notebooks/08-Debugging_example
+      - file: notebooks/A-ReversibleNetworkReconnection
+      - file: notebooks/B-Apoptosis
+      - file: notebooks/C-2DMigration
+      - file: notebooks/D-FarhadifarModel
+      - file: notebooks/E-T3Transitions
+      - file: notebooks/F-CylinderVesselMigration
+  - caption: API reference
+    chapters:
+      - file: api/core
+      - file: api/geometry
+      - file: api/topology
+      - file: api/dynamics
+      - file: api/solvers
+      - file: api/behaviors
+      - file: api/collisions
+      - file: api/generation
+      - file: api/draw
+      - file: api/io
+      - file: api/utils
+      - file: api/config
+  - caption: About
+    chapters:
+      - file: changelog

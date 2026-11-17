@@ -34,8 +34,8 @@ which is a system binary, not a Python package, and so is not installed by pip:
 Clone the repository:
 
 ```bash
-git clone https://github.com/vivarium-collective/vivatyssue.git
-cd vivatyssue
+git clone https://github.com/vivarium-collective/tyssue.git
+cd tyssue
 ```
 
 Create a virtual environment and install in editable mode with the dev extras:
@@ -49,35 +49,28 @@ python -m pip install -e ".[dev]"
 All runtime dependencies are declared in `pyproject.toml`, so pip resolves them
 for you.
 
-
-
 If all went well, you have successfully installed tyssue.
 
-### Install testing utilities
+### Running the tests
+
+The `dev` extra installs pytest and nbval. A `Makefile` provides shortcuts:
 
 ```sh
-pip install pytest pytest-cov nbval
+make test      # run the test suite
+make coverage  # run the tests with coverage
+make flake8    # check PEP8 on the code
+make nbtest    # run the tutorial notebooks with nbval
 ```
-
-A `Makefile` provides some utility function. Try :
-
-```sh
-make tests  # Run tests with nose
-make coverage  # Run tests with coverage
-make flake8  # Check PEP8 on the code
-make nbtest # Tests all  the demo notebooks - requires nbval
-```
-
 
 ### Building the documentation
 
-The documentation uses
-[nbsphinx](http://nbsphinx.readthedocs.io/en/0.2.9/index.html) to
-convert the jupyter notebooks in doc/notebooks to html with sphinx.
-
+The documentation is a [Jupyter Book](https://jupyterbook.org) (version 1.x)
+in `doc/`. The tutorial notebooks in `doc/notebooks` are executed at each
+build, so ImageMagick is needed:
 
 ```sh
-pip install sphinx nbsphinx sphinx-autobuild
-cd tyssue/doc
-make html
+python -m pip install -e ".[docs,viz,zarr]"
+make docs      # jupyter-book build doc/
 ```
+
+The HTML pages are written to `doc/_build/html`.

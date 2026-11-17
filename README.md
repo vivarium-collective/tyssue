@@ -24,7 +24,7 @@ the upstream repository and does not include the changes listed under
 
 | Tests | Doc | CHAT |
 | --- | --- | --- |
-| [![Tests](https://github.com/vivarium-collective/vivatyssue/actions/workflows/tests.yml/badge.svg)](https://github.com/vivarium-collective/vivatyssue/actions/workflows/tests.yml) | [![Doc Status](https://readthedocs.org/projects/tyssue/badge/?version=latest)](http://tyssue.readthedocs.io/en/latest/) |  [![Join the chat at https://gitter.im/DamCB/tyssue](https://badges.gitter.im/DamCB/tyssue.svg)](https://gitter.im/DamCB/tyssue?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) |
+| [![Tests](https://github.com/vivarium-collective/tyssue/actions/workflows/tests.yml/badge.svg)](https://github.com/vivarium-collective/tyssue/actions/workflows/tests.yml) | [![Doc Status](https://readthedocs.org/projects/tyssue/badge/?version=latest)](http://tyssue.readthedocs.io/en/latest/) |  [![Join the chat at https://gitter.im/DamCB/tyssue](https://badges.gitter.im/DamCB/tyssue.svg)](https://gitter.im/DamCB/tyssue?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) |
 
 
 ## Publication
@@ -53,7 +53,7 @@ dissipation function formalism.
 ![The two models considered](doc/illus/two_models.png)
 
 ### What kind of geometry does it model ?
-`tyssue` allows to model different geometries in 2D and in 3D.  Presentation of the different geometries and how to create them are shown in this [notebook](https://github.com/DamCB/tyssue-demo/blob/master/01-Geometry.ipynb).
+`tyssue` allows to model different geometries in 2D and in 3D.  Presentation of the different geometries and how to create them are shown in this [notebook](doc/notebooks/01-Geometry.ipynb).
 <p align="center">
  <img src="doc/illus/geometry.png" width="500">
 </p>
@@ -146,14 +146,14 @@ fig, ax = sheet_view(sheet)
 ### Documentation
 
 * The old documentation is still browsable online [here](http://tyssue.readthedocs.io/en/latest/)
-* Introduction notebooks are available [here](https://github.com/DamCB/tyssue-demo).
+* Introduction notebooks are in [doc/notebooks](doc/notebooks) and on [tyssue.readthedocs.io](https://tyssue.readthedocs.io).
 * The [tissue closure notebook](notebooks/tissue_closure_demo.ipynb) shows
   lateral-face fusion and apical-constriction lift on monolayers.
 * Changes between versions are listed in the [changelog](changelog.md).
 
 ### Quick view with Colab
 
-To quickly try out and get an intution on how tyssue works, a jupyter notebook has been developed in [Google Colab](https://colab.research.google.com/github/vivarium-collective/vivatyssue/blob/main/notebooks/basic_usage_quick.ipynb).
+To quickly try out and get an intution on how tyssue works, a jupyter notebook has been developed in [Google Colab](https://colab.research.google.com/github/vivarium-collective/tyssue/blob/main/notebooks/basic_usage_quick.ipynb).
 Google Colab is an on-line jupyter notebook that requires no setup and is free to use.
 To use it, simply sign in with your Google account and run all of the cells. 
 Feel free to try different geometries, topologies, and mechanical properties that you can set within the Google Colab environment.
